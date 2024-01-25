@@ -12,6 +12,7 @@
       height: 100dvh;
       width: 100vw;
       position: relative;
+      display: block;
   }
     .pin {
       position: fixed;
@@ -32,14 +33,20 @@
       font-family: monospace;
       font-weight: bold;
       line-height: 2;
+
+    }
+    .count img {
+      height: 16px;
+      width: auto;
+      filter: invert(1);
     }
 </style>
 </head>
 <body>
   
   <div class="pin"><h1>Bikes Are Really Fun</h1></div>
-  <div class="pin2"><h2><script type="text/javascript" src="https://counter.websiteout.com/js/36/0/0/1"></script></h2></div>
-  <div class="cover"></div>
+  <div class="pin2"><div class="count"><script type="text/javascript" src="https://counter.websiteout.com/js/36/0/0/1"></script></div></div>
+  <a class="cover" title="barf.bike on instagram" target="_blank" rel="noopener" href="https://www.instagram.com/barf.bike/"></a>
 
 </body>
 </html>
