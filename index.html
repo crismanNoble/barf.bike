@@ -7,12 +7,30 @@
     margin:0;
     font-size: 16px;
   }
-  .cover{background-image:url(./ad.jpg);background-size: cover; background-position: bottom right;
+  .cover{
+    
+    background-size: cover; background-position: bottom right;
       height: 100vh;
       height: 100dvh;
       width: 100vw;
       position: relative;
       display: block;
+  }
+  .cover:not(.flyer) {
+    background-image:url(./ad.jpg);
+  }
+  .flyer {
+    background: black;
+    height: 60vh;
+    height: 60dvh;
+  }
+  .flyer img {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
     .pin {
       position: fixed;
@@ -44,8 +62,20 @@
 </head>
 <body>
   
-  <div class="pin"><h1>Bikes Are Really Fun</h1></div>
+  <div class="pin"><h1>B.A.R.F.<br>Bikes Are Really Fun</h1></div>
   <div class="pin2"><div class="count"><script type="text/javascript" src="https://counter.websiteout.com/js/36/0/0/1"></script></div></div>
+
+
+  <a class="cover flyer" title="mar10 alleycat race" target="_blank" rel="noopener" href="https://www.instagram.com/p/C1dt_PEuTUb/" style="background-color:#d83545">
+    <img src="./flyers/mar10.jpg" alt="Bea Evanson fountain, 1pm March 10. A banana-chugging, balloon-popping, turtle-shell-throwing bike race and a HECKING GOOD time. You’re NOT gonna want to miss this one. More details soon. See you then!" />
+  </a>
+  
+  <a class="cover flyer" title="reading rainbow race" target="_blank" rel="noopener" href="https://www.instagram.com/p/C3WnYv3rgBt/" style="background-color:#f7df3d">
+    <img src="./flyers/rr.jpg" alt="Sunday, March 17th! A casual, competitive scavenger hunt starting at Trolley Barn Park and ending at Ward Canyon Park (normal heights). Suitable for any bike and speed. You can go solo or team up with friends to find all the places on the scavenger hunt."/>
+  </a>
+
+  
+
   <a class="cover" title="barf.bike on instagram" target="_blank" rel="noopener" href="https://www.instagram.com/barf.bike/"></a>
 
 </body>
