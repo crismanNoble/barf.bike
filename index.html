@@ -1,79 +1,80 @@
 <html>
 <head>
-<title>B.A.R.F.</title>
-<style>
-  html{background: black}body{margin:0;}
-  h1, h2 {
-    margin:0;
-    font-size: 16px;
-  }
-  .cover{
-    
-    background-size: cover; background-position: bottom right;
-      height: 100vh;
-      height: 100dvh;
-      width: 100vw;
-      position: relative;
-      display: block;
-  }
-  .cover:not(.flyer) {
-    background-image:url(./ad.jpg);
-  }
-  .flyer {
-    background: black;
-    height: 80vh;
-    height: 80dvh;
-  }
-  .flyer img {
-    position: absolute;
-    top:0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-    .pin {
-      position: fixed;
-      top: 0;
-      text-align: center;
-      width: 100%;
-      color: white;
-      font-family: monospace;
-      font-weight: bold;
-      line-height: 2;
-    }
-    .pin2 {
-      position: fixed;
-      bottom: 0;
-      text-align: center;
-      width: 100%;
-      color: white;
-      font-family: monospace;
-      font-weight: bold;
-      line-height: 2;
 
+  <title>B.A.R.F.</title>
+  <meta name="description" content="Bikes Are Really Fun" />
+
+  <meta property="og:image" content="https://barf.bike/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="600" />
+  <meta property="og:image:type" content="image/jpeg" />
+
+  <style>
+    html{background: black}body{margin:0;font-family: monospace;}
+    h1, h2 {
+      margin:0;
+      font-size: 16px;
     }
-    .count img {
-      height: 16px;
-      width: auto;
-      filter: invert(1);
+    .cover{ 
+      background-size: cover; background-position: bottom right;
+        height: 100vh;
+        height: 100dvh;
+        width: 100vw;
+        position: relative;
+        display: block;
     }
-</style>
+    .cover:not(.flyer) {
+      background-image:url(./ad.jpg);
+    }
+    .flyer {
+      background: black;
+      height: 80vh;
+      height: 80dvh;
+    }
+    .flyer img {
+      position: absolute;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+      .pin {
+        position: fixed;
+        top: 0;
+        text-align: center;
+        width: 100%;
+        color: white;
+        font-family: monospace;
+        font-weight: bold;
+        line-height: 2;
+      }
+      .pin2 {
+        position: fixed;
+        bottom: 0;
+        text-align: center;
+        width: 100%;
+        color: white;
+        font-family: monospace;
+        font-weight: bold;
+        line-height: 2;
+
+      }
+      .count img {
+        height: 16px;
+        width: auto;
+        filter: invert(1);
+      }
+  </style>
+
 </head>
 <body>
   
   <div class="pin"><h1>B.A.R.F.<br>Bikes Are Really Fun</h1></div>
+
+  <h2 style="color:white;text-align: center;background: black;position:relative; padding: 24px;">Upcoming Events:</h2>
   <div class="pin2"><div class="count"><script type="text/javascript" src="https://counter.websiteout.com/js/36/0/0/1"></script></div></div>
 
-  
-
-
-  
-
-  <a class="cover flyer" title="mar10 alleycat race" target="_blank" rel="noopener" href="https://www.instagram.com/p/C1dt_PEuTUb/" style="background-color:#d83545">
-    <img src="./flyers/mar10.jpg" alt="Bea Evanson fountain, 1pm March 10. A banana-chugging, balloon-popping, turtle-shell-throwing bike race and a HECKING GOOD time. You’re NOT gonna want to miss this one. More details soon. See you then!" />
-  </a>
-  
   <a class="cover flyer" title="reading rainbow race" target="_blank" rel="noopener" href="https://www.instagram.com/p/C3WnYv3rgBt/" style="background-color:#f7df3d">
     <img src="./flyers/rr.jpg" alt="Sunday, March 17th! A casual, competitive scavenger hunt starting at Trolley Barn Park and ending at Ward Canyon Park (normal heights). Suitable for any bike and speed. You can go solo or team up with friends to find all the places on the scavenger hunt."/>
   </a>
@@ -87,8 +88,15 @@
   </a>
 
 
-  <a class="cover flyer" title="Fiesta Island Tracklocross Association" target="_blank" rel="noopener" href="https://www.instagram.com/fiestaislandcx/" style="background-color:#000">
+  <a class="cover flyer" title="Fiesta Island Tracklocross Association" target="_blank" rel="noopener" href="https://www.instagram.com/fiestaislandcx/" style="background-color:#5a5a5a">
     <img src="./flyers/generaltx.jpg" alt="DFL-style un-UCI dirt races in the uncharted wilds of Fiesta Island and at the former city dump aka Morley Field. First Sunday of each month." />
   </a>
+
+  <h2 style="color:white;text-align: center;background: black;position:relative; padding: 24px;">Event Archive:</h2>
+
+  <a class="cover flyer" title="mar10 alleycat race" target="_blank" rel="noopener" href="https://www.instagram.com/p/C1dt_PEuTUb/" style="background-color:#d83545">
+    <img src="./flyers/mar10.jpg" alt="Bea Evanson fountain, 1pm March 10. A banana-chugging, balloon-popping, turtle-shell-throwing bike race and a HECKING GOOD time. You’re NOT gonna want to miss this one. More details soon. See you then!" />
+  </a>
+
 </body>
 </html>
