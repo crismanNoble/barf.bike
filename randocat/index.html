@@ -1,0 +1,751 @@
+<html>
+<head>
+
+  <title>RandoCat - p/b B.A.R.F.</title>
+
+  <meta name="description" content="Bikes Are Really Fun" />
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'>
+
+  <script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
+
+  <style>
+    html, body {
+      font-family: monospace;
+
+    }
+    * {
+      font-family: inherit;
+    }
+    form {
+      font-size: 14px;
+      line-height: 24px;
+      max-width: 420px;
+    }
+    label {
+      display: block;
+    }
+    fieldset {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    fieldset.new-spot-fieldset {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    fieldset.check {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+    input[type="checkbox"] {
+      margin: 0;
+    }
+    input, select {
+      height: 24px;
+    }
+    table {
+      text-align: left;
+    }
+    table td, table th {
+      border: 1px solid black;
+      padding: 4px;
+      vertical-align: top;
+    }
+    .sr {
+      border: 0;
+      clip: rect(0 0 0 0);
+      clip-path: polygon(0 0,0 0,0 0);
+      -webkit-clip-path: polygon(0 0,0 0,0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+      white-space: nowrap;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+    tr.new td:last-of-type {
+      vertical-align: bottom;
+    }
+    td.new-row-ctas {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="generate-manifests">Generate</button>
+
+  <div class="section-toggleable">
+    <h2>Options <button class="section-toggle">show/hide</button></h2>
+    <div class="toggleable">
+      <form class="options">
+       <!--  <fieldset class="check">
+          <label for="checkbox">Checkbox Label</label>
+          <input type="checkbox" id="checkbox" name="checkbox">
+        </fieldset> -->
+        <fieldset>
+          <label for="manifest_count">Manifest Count</label>
+          <select id="manifest_count" name="manifest_count">
+            <option value="">-randomized-</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </fieldset>
+        <fieldset>
+          <label for="stops_per_manifest">Stops Per Manifeset</label>
+          <select id="stops_per_manifest" name="stops_per_manifest">
+            <option value="">-randomized-</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+        </fieldset>
+        <fieldset>
+          <label for="max_stops_per_manifest">Max Stops Per Manifeset</label>
+          <select id="max_stops_per_manifest" name="max_stops_per_manifest">
+            <option value="8">8</option>
+            <option value="7">7</option>
+            <option value="6">6</option>
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+          </select>
+        </fieldset>
+        <fieldset>
+          <label for="min_stops_per_manifest">Minimum Stops Per Manifeset</label>
+          <select id="min_stops_per_manifest" name="min_stops_per_manifest">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+        </fieldset>
+        <fieldset>
+          <label for="start_bubble_radius">Start Bubble Radius</label>
+          <input type="number" max="100" min="-1" placeholder="5" id="start_bubble_radius" name="start_bubble_radius">
+        </fieldset>
+        <fieldset>
+          <label for="finish_bubble_radius">Finish Bubble Radius</label>
+          <input type="number" max="100" min="-1" placeholder="5" id="finish_bubble_radius" name="finish_bubble_radius">
+        </fieldset>
+      </form>
+    
+      <div class="section-toggleable">
+        <h2>Spot Display Mode <button class="section-toggle">show/hide</button></h2>
+        <table id="rules-order" class="toggleable rule-table" data-ruleset="display_as">
+          <tr>
+            <th>Possible Display Mode</th>
+            <th>Include?</th>
+          </tr>
+          <tr class="rule-template" style="display: none;">
+            <td class="rule-option-name"></td>
+            <td>
+              <form class="rule-option">
+                <fieldset class="check">
+                  <label for="rule-option-include" class="sr">Include</label>
+                  <input type="checkbox" id="rule-option-include" name="rule-option-include" >
+                </fieldset>
+              </form>
+            </td>
+          </tr>
+          <tr class="new-rule-template" style="display:none">
+            <td>
+              <fieldset class="new-rule-fieldset">
+                <label for="new-rule-option-name">Action:</label>
+                <input type="text" placeholder="What to do" id="new-rule-option-name" name="new-rule-option-name">
+              </fieldset>
+            </td>
+            <td class="new-row-ctas">
+              <button class="clear-new-rule">Cancel</button>
+              <button class="add-new-rule" disabled>Save</button>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button class="create-new-rule-row">New</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="section-toggleable">
+        <h2>Completion Order <button class="section-toggle">show/hide</button></h2>
+        <table id="rules-order" class="toggleable rule-table" data-ruleset="order_by">
+          <tr>
+            <th>Possible Order By</th>
+            <th>Include?</th>
+          </tr>
+          <tr class="rule-template" style="display: none;">
+            <td class="rule-option-name"></td>
+            <td>
+              <form class="rule-option">
+                <fieldset class="check">
+                  <label for="rule-option-include" class="sr">Include</label>
+                  <input type="checkbox" id="rule-option-include" name="rule-option-include" >
+                </fieldset>
+              </form>
+            </td>
+          </tr>
+          <tr class="new-rule-template" style="display:none">
+            <td>
+              <fieldset class="new-rule-fieldset">
+                <label for="new-rule-option-name">Action:</label>
+                <input type="text" placeholder="What to do" id="new-rule-option-name" name="new-rule-option-name">
+              </fieldset>
+            </td>
+            <td class="new-row-ctas">
+              <button class="clear-new-rule">Cancel</button>
+              <button class="add-new-rule" disabled>Save</button>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button class="create-new-rule-row">New</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="section-toggleable">
+        <h2>Stop Actions <button class="section-toggle">show/hide</button></h2>
+        <table id="rules-stop" class="toggleable rule-table" data-ruleset="stop_actions">
+          <tr>
+            <th>Possible Action</th>
+            <th>Include?</th>
+          </tr>
+          <tr class="rule-template" style="display: none;">
+            <td class="rule-option-name"></td>
+            <td>
+              <form class="rule-option">
+                <fieldset class="check">
+                  <label for="rule-option-include" class="sr">Include</label>
+                  <input type="checkbox" id="rule-option-include" name="rule-option-include" >
+                </fieldset>
+              </form>
+            </td>
+          </tr>
+          <tr class="new-rule-template" style="display:none">
+            <td>
+              <fieldset class="new-rule-fieldset">
+                <label for="new-rule-option-name">Action:</label>
+                <input type="text" placeholder="What to do" id="new-rule-option-name" name="new-rule-option-name">
+              </fieldset>
+            </td>
+            <td class="new-row-ctas">
+              <button class="clear-new-rule">Cancel</button>
+              <button class="add-new-rule" disabled>Save</button>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>
+              <button class="create-new-rule-row">New</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="section-toggleable">
+        <h2>Possible Spots <button class="section-toggle">show/hide</button></h2>
+        <table id="spot-table" class="toggleable">
+          <tr>
+            <th>(id)</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Lat / Long</th>
+            <th>Include?</th>
+          </tr>
+          <tr class="spot-template" style="display: none;">
+            <td class="spot-id"></td>
+            <td class="spot-name"></td>
+            <td class="spot-address"></td>
+            <td><span class="spot-lat"></span>, <span class="spot-long"></span></td>
+            <td>
+              <form class="spot-option">
+                <fieldset class="check">
+                  <label for="spot-option-include" class="sr">Include</label>
+                  <input type="checkbox" id="spot-option-include" name="spot-option-include" >
+                </fieldset>
+              </form>
+            </td>
+          </tr>
+          <tr class="new-row-template" style="display:none">
+            <td></td>
+            <td>
+              <fieldset class="new-spot-fieldset">
+                <label for="new-spot__name">Spot Name:</label>
+                <input type="text" placeholder="Searchable Spot Name" id="new-spot__name" name="new-spot__name">
+              </fieldset>
+            </td>
+            <td>
+              <fieldset class="new-spot-fieldset">
+                <label for="new-spot__address">Nearest Address:</label>
+                <input type="text" placeholder="420 Highland Ave" id="new-spot__address" name="new-spot__address">
+              </fieldset>
+            </td>
+            <td>
+              <div class="row">
+                <fieldset class="new-spot-fieldset">
+                  <label for="new-spot__lat">Lat:</label>
+                  <input type="number" placeholder="32.5123" id="new-spot__lat" name="new-spot__lat">
+                </fieldset>
+                <fieldset class="new-spot-fieldset">
+                  <label for="new-spot__long">Long:</label>
+                  <input type="number" placeholder="-117.6123"  id="new-spot__long" name="new-spot__long">
+                </fieldset>
+              </div>
+            </td>
+            <td class="new-row-ctas">
+              <button class="clear-new-spot">Cancel</button>
+              <button class="add-new-spot" disabled>Save Spot</button>
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <button class="create-new-spot-row">New Spot Row</button>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="manifest">
+    <h2>Random Cat:</h2>
+    <div class="instructions">Instructions:</div>
+    <div class="stops">
+      <div class="stop-template stop" style="display: none;"><span class="stop-numeral"></span> <span class="stop-display"></span> || <span class="stop-action"></span></div>
+    </div>
+  </div>
+
+
+<script>
+
+window.spots = [
+  {
+    id: '1',
+    name:'Golden Hill Park',
+    address: '2590 Golden Hill Dr, San Diego, CA 92102',
+    lat: '32.7198044',
+    long:'-117.1402461',
+    included: true
+  },{
+    id: '2',
+    name:'Grant Hill Park',
+    address: '2660 J St, San Diego, CA 92102',
+    lat: '32.7094507',
+    long:'-117.1371019',
+    included: true
+  },{
+    id: '3',
+    name:'Ward Canyon Park',
+    address: '3905 Adams Ave, San Diego, CA 92116',
+    lat: '32.7630543',
+    long:'-117.110903',
+    included: true
+  },{
+    id: '4',
+    name:'Dennis V Allen Park',
+    address: 'Dennis V Allen Park, San Diego, CA  92102, United States',
+    lat: '32.7138726',
+    long:'-117.1121643',
+    included: true
+  },{
+    id: '5',
+    name:'Fall Brewing North Park',
+    address: '4542 30th St, San Diego, CA 92116',
+    lat: '32.7600206',
+    long:'-117.1305509',
+    included: true
+  },{
+    id: '6',
+    name:'Blind Lady Alehouse',
+    address: '3416 Adams Ave, San Diego, CA 92116',
+    lat: '32.7635426',
+    long:'-117.1202769',
+    included: true
+  },{
+    id: '7',
+    name:'Velodrome',
+    address: '2516 Pershing Dr, San Diego, CA 92104',
+    lat: '32.7351606',
+    long:'-117.1399235',
+    included: true
+  },{
+    id: '8',
+    name:'Zoo Lion Statue',
+    address: '2920 Zoo Dr, San Diego, CA 92101',
+    lat: '32.735264',
+    long:'-117.1486725',
+    included: true
+  },{
+    id: '9',
+    name:'Whaley House',
+    address: '2476 San Diego Ave, San Diego, CA 92110',
+    lat: '32.7526763',
+    long:'-117.1943697',
+    included: true
+  },{
+    id: '10',
+    name:'Washington Street Skatepark',
+    address: '3755 Pacific Hwy',
+    lat: '32.7408365',
+    long:'-117.1848234',
+    included: true
+  },{
+    id: '11',
+    name:'Old Trolley Barn Park',
+    address: '1943 Adams Ave, San Diego, CA 92116',
+    lat: '32.76234',
+    long:'-117.14406',
+    included: true
+  },{
+    id: '12',
+    name:'Bea Evenson Fountain',
+    address: '1549 El Prado, San Diego, CA 92101',
+    lat: '32.7311058',
+    long:'-117.1499595',
+    included: true
+  },{
+    id: '13',
+    name:'Pioneer Park',
+    address: '1521 Washington Pl, San Diego, CA 92103',
+    lat: '32.7495961',
+    long:'-117.1773209',
+    included: true
+  }
+];
+
+window.rules = {
+  display_as: [
+    'Name',
+    'Address',
+    'Coordinates',
+    'QR Code'
+  ],
+  order_by: [
+    'Listed Order',
+    'Any Order',
+    'Alphabetical Shuffled',
+    'Address Order',
+    'Shuffled Order'
+  ],
+  stop_actions: [
+    'Picture of Address',
+    'Picture of Bike Locked Up',
+    'Picture of Address',
+    'Physical Challenge',
+    'Purchase Something',
+  ]
+}
+
+function getRandomElement(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+//const newArray = originalArray.filter(obj => obj.in_use === false);
+
+
+$(document).ready(function(){
+
+  function generateManifests() {
+    $('.stop:not(.stop-template').remove();
+
+    var number_of_manifests = $('#manifest_count').val() || getRandomElement([1,2,3]);
+    // console.log('number_of_manifests',number_of_manifests);
+    for(var i=0;i<number_of_manifests;i++){
+      var min_max = [];
+      var max_stops_per_manifest = Math.max($('#min_stops_per_manifest').val(),$('#max_stops_per_manifest').val());
+      var min_stops_per_mainfest = Math.min($('#min_stops_per_manifest').val(),$('#max_stops_per_manifest').val());
+      var diff  = max_stops_per_manifest - min_stops_per_mainfest;
+      for(var j=min_stops_per_mainfest; j < max_stops_per_manifest+1; j++) {
+        min_max.push(j);
+      }
+      // console.log(min_max);
+
+      var number_of_stops = $('#stops_per_manifest').val() || getRandomElement(min_max);
+      console.log('manifest_'+(i+1), 'needs',number_of_stops,'stops');
+
+      var order_by = getRandomElement(window.rules.order_by);
+      var display_as = getRandomElement(window.rules.display_as);
+
+      var shuffled_spots = shuffleArray([...window.spots]);
+
+      console.log(window.spots);
+      console.log(shuffled_spots);
+
+      console.log('order_by', order_by, 'shuffled_spots', shuffled_spots);
+
+      var shuffleable_numerals = [];
+      var shuffleable_letters = [];
+      var letters = ['a','b','c','d','e','f','g','h','i', 'j','k'];
+
+      for(var m=0;m<number_of_stops;m++) {
+        shuffleable_numerals.push(m+1);
+        shuffleable_letters.push(letters[m]);
+      }
+      var shuffled_numerals = shuffleArray([...shuffleable_numerals]);
+      var shuffled_letters = shuffleArray([...shuffleable_letters]);
+
+      if(order_by == 'Listed Order') {
+        $('.instructions').text('Complete in order');
+      }
+      if(order_by == 'Address Order') {
+        $('.instructions').text('Complete in order by address number');
+      }
+      if(order_by == 'Any Order') {
+        $('.instructions').text('Complete in any order');
+      }
+      if(order_by == 'Shuffled Order') {
+        $('.instructions').text('Complete in numeric order');
+      }
+      if(order_by == 'Alphabetical Shuffled') {
+        $('.instructions').text('Complete in alphabetical order');
+      }
+
+      for (var k=0;k<number_of_stops;k++){
+        var $template = $('.stop-template');
+        var $stop = $template.clone().removeClass('stop-template').attr('style','');
+        
+        $stop.find('.stop-action').text(getRandomElement(rules.stop_actions));
+
+        if(order_by == 'Listed Order') {
+          $stop.find('.stop-numeral').text((k+1) + '.');
+
+        } else if(order_by == 'Address Order'  || order_by == 'Any Order') {
+          $stop.find('.stop-numeral').text('->');
+        } else if(order_by == 'Shuffled Order' || order_by == 'Alphabetical Shuffled') {
+          let array = [];
+          if(order_by == 'Shuffled Order') {
+            $stop.find('.stop-numeral').text((shuffled_numerals[k]) + '.');
+          } else {
+            $stop.find('.stop-numeral').text((shuffled_letters[k]) + '.');
+          
+          }
+        }
+
+        if(display_as == 'Address'|| order_by == 'Address Order' ) {
+          $stop.find('.stop-display').text(shuffled_spots[k].address);
+        } else  if(display_as == 'Name') {
+          $stop.find('.stop-display').text(shuffled_spots[k].name);
+        } else if(display_as == 'Coordinates') {
+          $stop.find('.stop-display').text(shuffled_spots[k].lat + ', ' + shuffled_spots[k].long);
+        } else {
+          $stop.find('.stop-display').text(shuffled_spots[k].name);
+        }
+        $('.stop:last-of-type').after($stop);
+
+      }
+
+      
+
+    }
+  }
+  $('.generate-manifests').click(function(){
+    generateManifests();
+  });
+
+  function popuplateRules(){
+    var $rule_tables = $('.rule-table');
+    $rule_tables.each(function(){
+      var $rule_table = $(this);
+      var $rule_template = $rule_table.find('.rule-template');
+      var ruleset = $rule_table.attr('data-ruleset');
+
+      var these_rules = window.rules[ruleset];
+      console.log('setting up for',ruleset, these_rules);
+      for(var i=0;i<these_rules.length;i++){
+        var $rule_row = $rule_template.clone();
+        $rule_row.attr('style','');
+        $rule_row.addClass('rule').removeClass('rule-template');
+        var this_rule = these_rules[i]
+        var rule_name = this_rule.split('_')[0].trim();
+        rule_active = true;
+        if(this_rule.split('_').length > 1 && this_rule.split('_')[1].trim().length > 1) {
+          rule_active = !(this_rule.split('_')[1].trim() === 'false');
+        }
+        if(rule_active) {
+          $rule_row.find('input[type="checkbox"]').attr('checked','checked');
+        }
+        $rule_row.find('.rule-option-name').text(rule_name);
+        $rule_template.before($rule_row);
+      }
+    });
+  }
+
+  function addSpots() {
+    var $spot_template = $('.spot-template');
+    console.log('adding spots', spots);
+    for(var i=0;i<window.spots.length;i++) {
+      var spot = window.spots[i];
+      if($('#spot-row-'+spot.id).length < 1) {
+        var $sr = $spot_template.clone();
+        $sr.attr('style', '');
+        $sr.removeClass('spot-template').addClass('spot-row');
+        $sr.attr('id', 'spot-row-'+spot.id);
+        $sr.find('.spot-id').text(spot.id);
+        $sr.find('.spot-name').text(spot.name);
+        $sr.find('.spot-address').text(spot.address);
+        $sr.find('.spot-lat').text(spot.lat);
+        $sr.find('.spot-long').text(spot.long);
+        if(spot.included) {
+          $sr.find('input[type="checkbox"]').attr('checked','checked');
+        }
+
+        if($('.spot-row').length < 1) {
+          $spot_template.after($sr);
+        } else {
+          $($('.spot-row')[$('.spot-row').length-1]).after($sr);
+        }
+      }
+     
+
+    }
+  }
+  addSpots();
+
+  popuplateRules();
+
+  $('.create-new-rule-row').click(function(){
+    var $table_in_question = $(this).parent().parent().parent();
+    var $table_id = $table_in_question.attr('id');
+    var $rule_template = $table_in_question.find('.new-rule-template');
+    var $new_rule_row = $rule_template.clone().attr('style','').removeClass('new-rule-template').addClass('new-rule-form');
+    $rule_template.before($new_rule_row);
+  });
+
+  $('.create-new-spot-row').click(function(){
+    var $table_in_question = $(this).parent().parent().parent();
+    var $table_id = $table_in_question.attr('id');
+
+    var $new_row_template = $table_in_question.find('tr.new-row-template');
+    var $new_row = $new_row_template.clone();
+    // var temp_id = $table_id+'_newrow_'+$('.new').length();
+
+    $new_row.removeClass('new-row-template').addClass('new');
+
+    $new_row.attr('style','');
+    $new_row_template.before($new_row);
+  });
+
+  $('table').on('click', '.clear-new-rule', function(){
+    $(this).parent().parent().remove();
+  });
+  $('table').on('click', '.add-new-rule', function(){
+    var $row_in_question = $(this).parent().parent();
+    var $table_in_question = $row_in_question.parent().parent();
+
+    var ruleset = $table_in_question.attr('data-ruleset');
+    var rule_name = $row_in_question.find('[name="new-rule-option-name"]').val().trim();
+
+    if(ruleset && window.rules[ruleset] && rule_name && rule_name.length > 0) {
+      console.log(ruleset, rule_name);
+
+      window.rules[ruleset].push(rule_name);
+
+      var $rule_template = $table_in_question.find('.rule-template');
+      var $rule_row = $rule_template.clone();
+      $rule_row.attr('style','');
+      $rule_row.addClass('rule').removeClass('rule-template');
+
+      rule_active = true;
+      $rule_row.find('input[type="checkbox"]').attr('checked','checked');
+      $rule_row.find('.rule-option-name').text(rule_name);
+
+      $rule_template.before($rule_row);
+
+    } else {
+      console.log('cant add rule', rule_name, ruleset, window.rules[ruleset], rule_name.length ,$table_in_question);
+    }
+    
+    $(this).parent().parent().remove();
+  });
+  $('table').on('click', '.clear-new-spot', function(){
+    $(this).parent().parent().remove();
+  });
+  $('table').on('click', '.add-new-spot', function(){
+    var $row_in_question = $(this).parent().parent();
+
+    var name = $row_in_question.find('[name="new-spot__name"]').val();
+    var address = $row_in_question.find('[name="new-spot__address"]').val();
+    var lat = $row_in_question.find('[name="new-spot__lat"]').val();
+    var long = $row_in_question.find('[name="new-spot__long"]').val();
+
+    window.spots.push({
+      id: window.spots.length+1,
+      name: name, address: address, lat: lat, long: long,
+      included: true
+    });
+
+    addSpots();
+
+    $(this).parent().parent().remove();
+  });
+
+  $('.section-toggle').click(function(){
+    $($(this).parent().parent().find('.toggleable')[0]).toggle();
+  });
+
+  $('.rule-table').on('keyup', 'input',function(){
+    var rule_name = $(this).val().trim();
+    if(rule_name.length > 0) {
+      $(this).parent().parent().parent().find('.add-new-rule').attr('disabled',false);
+    } else {
+      $(this).parent().parent().parent().find('.add-new-rule').attr('disabled',true);
+    }
+  });
+
+  $('#spot-table').on('keyup', 'input',function(){
+    $('.new').each(function(){
+      var name = $(this).find('[name="new-spot__name"]').val();
+      var address = $(this).find('[name="new-spot__address"]').val();
+      var lat = $(this).find('[name="new-spot__lat"]').val();
+      var long = $(this).find('[name="new-spot__long"]').val();
+
+      if(name && address && lat && long) {
+        $(this).find('.add-new-spot').attr('disabled',false);
+      } else {
+        $(this).find('.add-new-spot').attr('disabled',true);
+      }
+    });
+  });
+
+});</script>
+  
+
+</body>
+</html>
