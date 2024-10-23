@@ -91,17 +91,13 @@
 
   <div class="section-toggleable">
     <h2>Options <button class="section-toggle">show/hide</button></h2>
-    <div class="toggleable">
+    <div class="toggleable" style="display: none;">
       <form class="options">
-       <!--  <fieldset class="check">
-          <label for="checkbox">Checkbox Label</label>
-          <input type="checkbox" id="checkbox" name="checkbox">
-        </fieldset> -->
         <fieldset>
           <label for="manifest_count">Manifest Count</label>
           <select id="manifest_count" name="manifest_count">
             <option value="">-randomized-</option>
-            <option value="1">1</option>
+            <option value="1" selected>1</option>
             <option value="2">2</option>
             <option value="3">3</option>
           </select>
@@ -338,12 +334,36 @@
     </div>
   </div>
 
-  <div class="manifest">
+  <div class="generated">
     <h2>Random Cat:</h2>
-    <div class="instructions">Instructions:</div>
-    <div class="stops">
-      <div class="stop-template stop" style="display: none;"><span class="stop-numeral"></span> <span class="stop-display"></span> || <span class="stop-action"></span></div>
+    <div class="manifest" data-manifest-id="1"> 
+      <hr>
+      <h3>Manifest <span class="manifest-number">1</span>:</h3>
+      <form class="overrides" data-manifest-id="1">
+        <fieldset>
+          <label for="override_stop_count">Override Number of Stops</label>
+          <select id="override_stop_count">
+          </select>
+        </fieldset>
+        <fieldset>
+          <label for="override_order_by">Override Order Instructions</label>
+          <select id="override_order_by">
+          </select>
+        </fieldset>
+        <fieldset>
+          <label for="override_display_as">Override Display Option</label>
+          <select id="override_display_as">
+          </select>
+        </fieldset>
+      </form>
+      <hr>
+      <div class="instructions">Instructions:</div>
+      <div class="stops">
+        <div class="stop-template stop" style="display: none;"><span class="stop-shuffled-numeral" style="display: none"></span><span class="stop-listed-numeral" style="display: none"></span><span class="stop-letter" style="display: none"></span><span class="stop-arrow" style="display: none;">-></span> <span class="stop-display-name" style="display: none"></span><span class="stop-display-coordinates" style="display: none"></span><span class="stop-display-address" style="display: none"></span> || <span class="stop-action"></span></div>
+      </div>
+      <hr>
     </div>
+
   </div>
 
 
@@ -448,8 +468,7 @@ window.rules = {
   display_as: [
     'Name',
     'Address',
-    'Coordinates',
-    'QR Code'
+    'Coordinates'
   ],
   order_by: [
     'Listed Order',
@@ -484,10 +503,32 @@ $(document).ready(function(){
 
   function generateManifests() {
     $('.stop:not(.stop-template').remove();
+    $('.manifest:not([data-manifest-id="1"])').remove();
 
     var number_of_manifests = $('#manifest_count').val() || getRandomElement([1,2,3]);
     // console.log('number_of_manifests',number_of_manifests);
+    var $manifest_1 = $('.manifest[data-manifest-id="1"');
+
     for(var i=0;i<number_of_manifests;i++){
+      var manifest_id = i+1;
+      var $manifest = false;
+      if(manifest_id > 1) {
+
+        $manifest = $manifest_1.clone();
+        $manifest.find('select').each(function(){
+          $(this).html('');
+        });
+        $manifest.find('.stop:not(.stop-template)').remove();
+        $manifest.find('.manifest-number').text(manifest_id);
+        $manifest.attr('data-manifest-id', manifest_id);
+        $manifest.find('form').attr('data-manifest-id', manifest_id);
+
+        $('.manifest:last-of-type').after($manifest);
+
+      } else {
+        $manifest = $manifest_1;
+      }
+
       var min_max = [];
       var max_stops_per_manifest = Math.max($('#min_stops_per_manifest').val(),$('#max_stops_per_manifest').val());
       var min_stops_per_mainfest = Math.min($('#min_stops_per_manifest').val(),$('#max_stops_per_manifest').val());
@@ -498,17 +539,17 @@ $(document).ready(function(){
       // console.log(min_max);
 
       var number_of_stops = $('#stops_per_manifest').val() || getRandomElement(min_max);
-      console.log('manifest_'+(i+1), 'needs',number_of_stops,'stops');
+      // console.log('manifest_'+(i+1), 'needs',number_of_stops,'stops');
 
       var order_by = getRandomElement(window.rules.order_by);
       var display_as = getRandomElement(window.rules.display_as);
 
       var shuffled_spots = shuffleArray([...window.spots]);
 
-      console.log(window.spots);
-      console.log(shuffled_spots);
+      // console.log(window.spots);
+      // console.log(shuffled_spots);
 
-      console.log('order_by', order_by, 'shuffled_spots', shuffled_spots);
+      // console.log('order_by', order_by, 'shuffled_spots', shuffled_spots);
 
       var shuffleable_numerals = [];
       var shuffleable_letters = [];
@@ -522,52 +563,83 @@ $(document).ready(function(){
       var shuffled_letters = shuffleArray([...shuffleable_letters]);
 
       if(order_by == 'Listed Order') {
-        $('.instructions').text('Complete in order');
+        $manifest.find('.instructions').text('Complete in order');
       }
       if(order_by == 'Address Order') {
-        $('.instructions').text('Complete in order by address number');
+        $manifest.find('.instructions').text('Complete in order by address number');
       }
       if(order_by == 'Any Order') {
-        $('.instructions').text('Complete in any order');
+        $manifest.find('.instructions').text('Complete in any order');
       }
       if(order_by == 'Shuffled Order') {
-        $('.instructions').text('Complete in numeric order');
+        $manifest.find('.instructions').text('Complete in numeric order');
       }
       if(order_by == 'Alphabetical Shuffled') {
-        $('.instructions').text('Complete in alphabetical order');
+        $manifest.find('.instructions').text('Complete in alphabetical order');
       }
 
+      for(let display_rule of rules.display_as) {
+        if(display_rule == display_as) {
+          $manifest.find('#override_display_as').append('<option selected="true">'+display_rule+'</option>');
+        } else {
+          $manifest.find('#override_display_as').append('<option>'+display_rule+'</option>');
+        }
+        
+      }
+
+      for(let order_rule of rules.order_by) {
+        if(order_rule == order_by) {
+          $manifest.find('#override_order_by').append('<option selected="true">'+order_rule+'</option>');
+        } else {
+          $manifest.find('#override_order_by').append('<option>'+order_rule+'</option>');
+        }
+      }
+
+      for(let number_of_stops_rule of min_max) {
+        if(number_of_stops_rule == number_of_stops) {
+          $manifest.find('#override_stop_count').append('<option selected="true">'+number_of_stops_rule+'</option>');
+        } else {
+          $manifest.find('#override_stop_count').append('<option>'+number_of_stops_rule+'</option>');
+        }
+      }
+      
+
+
       for (var k=0;k<number_of_stops;k++){
-        var $template = $('.stop-template');
+        var $template = $manifest.find('.stop-template');
         var $stop = $template.clone().removeClass('stop-template').attr('style','');
         
         $stop.find('.stop-action').text(getRandomElement(rules.stop_actions));
 
-        if(order_by == 'Listed Order') {
-          $stop.find('.stop-numeral').text((k+1) + '.');
+        $stop.find('.stop-listed-numeral').text((k+1) + '.');
+        $stop.find('.stop-shuffled-numeral').text((shuffled_numerals[k]) + '.');
+        $stop.find('.stop-letter').text((shuffled_letters[k]) + '.');
 
+        if(order_by == 'Listed Order') {
+          $stop.find('.stop-listed-numeral').show();
         } else if(order_by == 'Address Order'  || order_by == 'Any Order') {
-          $stop.find('.stop-numeral').text('->');
+          $stop.find('.stop-arrow').show();
         } else if(order_by == 'Shuffled Order' || order_by == 'Alphabetical Shuffled') {
-          let array = [];
           if(order_by == 'Shuffled Order') {
-            $stop.find('.stop-numeral').text((shuffled_numerals[k]) + '.');
+            $stop.find('.stop-shuffled-numeral').show();
           } else {
-            $stop.find('.stop-numeral').text((shuffled_letters[k]) + '.');
-          
+            $stop.find('.stop-letter').show();
           }
         }
 
+        $stop.find('.stop-display-address').text(shuffled_spots[k].address);
+        $stop.find('.stop-display-name').text(shuffled_spots[k].name);
+        $stop.find('.stop-display-coordinates').text(shuffled_spots[k].lat + ', ' + shuffled_spots[k].long);
+
         if(display_as == 'Address'|| order_by == 'Address Order' ) {
-          $stop.find('.stop-display').text(shuffled_spots[k].address);
-        } else  if(display_as == 'Name') {
-          $stop.find('.stop-display').text(shuffled_spots[k].name);
+          $stop.find('.stop-display-address').show();
         } else if(display_as == 'Coordinates') {
-          $stop.find('.stop-display').text(shuffled_spots[k].lat + ', ' + shuffled_spots[k].long);
+          $stop.find('.stop-display-coordinates').show();
         } else {
-          $stop.find('.stop-display').text(shuffled_spots[k].name);
+          $stop.find('.stop-display-name').show();
         }
-        $('.stop:last-of-type').after($stop);
+
+        $manifest.find('.stop:last-of-type').after($stop);
 
       }
 
