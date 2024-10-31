@@ -1,0 +1,174 @@
+<html>
+<head>
+
+  <title>B.A.R.F. | logo archive</title>
+
+  <style>
+    body, html {
+      margin: 0;
+      font-family: monospace;
+      box-sizing: border-box;
+
+      color: black;
+    }
+    * {
+      font-family: inherit;
+      box-sizing: inherit;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+
+    }
+    .logo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      max-width: 2000px;
+      margin: 0 auto;
+      justify-content: center;
+    }
+    .logo {
+/*      border: 1px solid black;*/
+      display: block;
+      margin:0;
+      width: 25%;
+      max-width: 300px;
+      flex-grow: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    .logo figure {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      flex-grow: 1;
+      justify-content: space-between;
+
+    }
+    .logo img {
+      display: block;
+      max-height: 120px;
+      mix-blend-mode: multiply;
+    }
+    figure div{
+      display: flex;
+/*      background: purple;*/
+      flex-grow: 1;
+      align-items: center;
+      justify-content: center;
+
+    }
+
+    .logo figcaption {
+      padding-top: 16px;
+      text-align: center;
+    }
+
+    @media(max-width: 800px) {
+      .logo {
+        width: 50%;
+      }
+    }
+    @media(max-width: 400px) {
+      .logo {
+        width: 100%;
+      }
+    }
+    .alt {
+      display: none;
+    }
+
+    .logo--mash:hover,
+    .logo--nike:hover,
+    .logo--dare:hover {
+      background: black;
+      color: white;
+    }
+    
+    .logo--mash:hover {
+      color: #ff6a21;
+    }
+    .logo--dare:hover {
+      color: #ee2530;
+    }
+    .logo--nike:hover {
+      color: #36e519;
+    }
+    .logo--nintendo:hover {
+      background: #d80100;
+      color: white;
+    }
+    
+    .logo--mash:hover .alt img,
+    .logo--nike:hover .alt img,
+    .logo--nintendo:hover .alt img,
+    .logo--dare:hover .alt img {
+      mix-blend-mode: normal;
+    }
+    .logo:hover .alt{
+      display: flex;
+    }
+    
+    
+    .logo:hover .default{
+      display: none;
+    }'
+  </style>
+
+</head>
+<body>
+  <h1 style="text-align:center; margin-top: 1em; margin-bottom: 1em">Logo Archives</h1>
+  <div class="logo-grid">
+    <div class="logo logo--dare">
+      <figure>
+        <div class="default"><img src="./dare/dare_x_barf_black.png"></div>
+        <div class="alt"><img src="./dare/dare_x_barf_red.png"></div>
+        <figcaption>D.A.R.E. x B.A.R.F. <a href="./dare/">(files)</a></figcaption>
+      </figure>
+    </div>
+    
+    <div class="logo logo--nintendo">
+      <figure >
+        <div class="default"><img src="./nintendo/nintendo_x_barf_black.png"></div>
+        <div class="alt"><img src="./nintendo/nintendo_x_barf_white.png"></div>
+        <figcaption>Nintendo x B.A.R.F. <a href="./nintendo/">(files)</a></figcaption>
+      </figure>
+    </div>
+
+    <div class="logo logo--nicenez">
+      <figure >
+        <div class="default"><img src="./nicenez/nicenez_x_barf_black.png"></div>
+        <div class="alt"><img src="./nicenez/nicenez_x_barf_color.png"></div>
+        <figcaption>Nice’N’Easy x B.A.R.F. <a href="./nicenez/">(files)</a></figcaption>
+      </figure>
+    </div>
+
+    <div class="logo logo--blink182">
+      <figure >
+        <div class="default"><img src="./blink182/blink182_x_barf_black.png"></div>
+        <div class="alt"><img src="./blink182/blink182_x_barf_color.png"></div>
+        <figcaption>Blink 182 x B.A.R.F. <a href="./blink182/">(files)</a></figcaption>
+      </figure>
+    </div>
+
+    <div class="logo logo--nike">
+      <figure >
+        <div class="default"><img src="./nike/nike_x_barf_black.png"></div>
+        <div class="alt"><img src="./nike/nike_x_barf_color.png"></div>
+        <figcaption>Nike x B.A.R.F. <a href="./nike/">(files)</a></figcaption>
+      </figure>
+    </div>
+    
+    <div class="logo logo--mash">
+      <figure >
+        <div class="default"><img src="./mash/mash_x_barf_black.png"></div>
+        <div class="alt"><img src="./mash/mash_x_barf_color.png"></div>
+        <figcaption>MASH x B.A.R.F. <a href="./mash/">(files)</a></figcaption>
+      </figure>
+    </div>
+  </div>
+</body>
+</html>
