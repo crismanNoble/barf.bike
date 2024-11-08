@@ -68,6 +68,23 @@
       .cover, h2 {
         z-index: 2;
       }
+      .mini-logo-random {
+        width: 200px;
+        height: 100px;
+        position: relative;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .mini-logo-random img {
+        width: 100%;
+        object-fit: contain;
+        position: absolute;
+        top:  0;
+        left: 0;
+        width:  100%;
+        height: 100%;
+      }
   </style>
 
 </head>
@@ -75,7 +92,7 @@
   
   <h2 style="color:white;text-align: center;background: #5fdb0b;position:relative; padding: 24px;"><a href="https://www.instagram.com/p/C_9Wyy4Sp7W/?img_index=2" style="color:black" target="_blank" rel="noopener">Support our weirdness, buy a barf.nike shirt -></a></h2>
 
-  <div class="top"><h1 style="color:black;text-align: center;background: white;position:relative; padding: 24px;">B.A.R.F.<br><span contenteditable style="font-size: 2em;">Bikes Are Really Fun</span><br><a href="https://www.instagram.com/barf.bike/" target="_blank" rel="noopener">(Instagram)</a> | <a href="https://www.strava.com/clubs/barf" target="_blank" rel="noopener">(Strava)</a> </h1></div>
+  <div class="top"><h1 style="color:black;text-align: center;background: white;position:relative; padding: 24px;">B.A.R.F.<br><br><a class="mini-logo-random" href="./logos/"><img style="display:none;" id="logo" src="" alt="" /></a><br><span contenteditable style="font-size: 2em;">Bikes Are Really Fun</span><br><a href="https://www.instagram.com/barf.bike/" target="_blank" rel="noopener">(Instagram)</a> | <a href="https://www.strava.com/clubs/barf" target="_blank" rel="noopener">(Strava)</a> </h1></div>
 
   <h2 style="color:white;text-align: center;background: black;position:relative; padding: 24px;">Upcoming Events:</h2>
   
@@ -145,6 +162,24 @@
   <div class="pin2"><div class="count"><script type="text/javascript" src="https://counter.websiteout.com/js/36/0/0/1"></script></div></div>
 
 
+  <script>
+    var logos = [
+      './logos/blink182/blink182_x_barf_black.png',
+      './logos/dare/dare_x_barf_black.png',
+      './logos/mash/mash_x_barf_black.png',
+      './logos/nicenez/nicenez_x_barf_black.png',
+      './logos/nike/nike_x_barf_black.png',
+      './logos/nintendo/nintendo_x_barf_black.png',
+      './logos/pbs/pbs_x_barf_black.png',
+      './logos/pizzahut/pizzahut_x_barf_black.png',
+      './logos/sram/sram_x_barf_black.png'
+    ];
+    var random_src = logos[Math.floor(Math.random() * logos.length)];
+    var logo_img = document.getElementById("logo");
+    logo_img.src = random_src;
+    logo_img.style.display = 'block';
 
+
+  </script>
 </body>
 </html>
