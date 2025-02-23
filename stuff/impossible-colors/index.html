@@ -1,5 +1,6 @@
 <head>
   <script src="/js/jquery.js"></script>
+  <script src="/js/domtoimg.js"></script>
 </head>
 <style>
   :root{
@@ -11,6 +12,9 @@
     margin: 0;
     font-family: monospace;
     font-size: 10px;
+  }
+  * {
+    font-family: inherit;
   }
   .logo {
     max-width: --base_width;
@@ -33,8 +37,18 @@
     width: 100%;
     display: flex;
   }
+  input[type="color"] {
+    height: 22px;
+    paddg: 0;
+    padding-inline: 0 !important;
+    padding-block: 0 !important;
+    border: 0px ! Important;
+    background: transparent;
+    block-size: 22px;
+  }
   label {
     display: block;
+    font-size: 10px;
 
   }
   .input {
@@ -53,6 +67,7 @@
     }
     .wrapper {
       display: flex;
+      flex-wrap: wrap;
     }
     .logos {
       flex-basis: 2;
@@ -60,13 +75,50 @@
     .controls {
       max-width: 500px;
     }
+    .presets {
+      display: flex;
+      gap: 4px;
+      font-size: 10px;
+
+    }
+    .presets button {
+      font-size: 10px;
+    }
+    .presets button.active {
+      background: black;
+      color: white;
+    }
+    .settings {
+      width: 100%;
+      display: none;
+    }
 </style>
 <div class="wrapper">
   <form class="controls">
     <fieldset>
+      <button id="download">download current triangle as png</button>
+    </fieldset>
+    <fieldset class="presets">
+      <button data-preset="classic" class="active">Classic</button>
+      <button data-preset="invert">Invert</button>
+      <button data-preset="chicago">Chicago</button>
+      <button data-preset="padres">Padres</button>
+      <button data-preset="lakers">Lakers</button>
+      <button data-preset="kings">Kings</button>
+      <button data-preset="bulls">Bulls</button>
+      <button data-preset="nickelodeon">Nickelodeon</button>
+      <button data-preset="slime">Slime</button>
+      <button data-preset="mexico">Mexico</button>
+      <button data-preset="palastine">Palastine</button>
+      <button data-preset="trans">Trans Flag</button>
+      <button data-preset="pride">Pride Flag</button>
+      <button data-preset="pride2">Pride Flag 2</button>
+      <button data-preset="cmyk">CMYK</button>
+    </fieldset>
+    <fieldset>
       <div class="input">
         <label for="background_color">Background Color</label>
-        <input type="color" id="background_color" name="background_color" value="#ffffff">
+        <input type="color" id="background_color" name="background_color" value="#eeeeee">
       </div>
     </fieldset>
     <fieldset>
@@ -175,7 +227,7 @@
 
     <fieldset>
       <div class="input">
-        <label for="shape_color">Base Color</label>
+        <label for="shape_color">Shape Color</label>
         <input type="color" id="shape_color" name="shape_color" value="#000000">
       </div>
       <div class="input">
@@ -193,7 +245,7 @@
     </fieldset>
     
   </form>
-  <div class="logos">
+  <div class="logos" style="background-color:#eeeeee">
     <div class="logo">
       <svg id="logo_base" class="logo_svg" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="5.64in" height="4.88in" viewBox="0 0 405.72 351.37">
         <g id="impossible">
@@ -246,10 +298,145 @@
       <div class="clones"></div>
     </div>
   </div>
+  <div class="settings"></div>
 
 </div>
 <script>
 $(document).ready(function(){
+
+  var settings = {};
+
+  function syncSettings($which) {
+    if($which) {
+      var who_changed = $which.attr('id');
+      var changed_to = $which.val();
+      
+
+      if(who_changed =='shape_color') {
+        //also update and sync the child inputs
+        $('#shape_color--left').val(changed_to);
+        $('#shape_color--right').val(changed_to);
+        $('#shape_color--bottom').val(changed_to);
+      }
+      if(who_changed == 'text_color') {
+        //also update and sync child text colors
+        $('#text_color--left').val(changed_to);
+        
+        $('#text_color--right').val(changed_to);
+        $('#text_color--bottom').val(changed_to);
+
+        $('#text_color--b').val(changed_to);
+        $('#text_color--a').val(changed_to);
+        $('#text_color--r').val(changed_to);
+        $('#text_color--f').val(changed_to);
+
+        $('#text_color--b--left').val(changed_to);
+        $('#text_color--a--left').val(changed_to);
+        $('#text_color--r--left').val(changed_to);
+        $('#text_color--f--left').val(changed_to);
+
+        $('#text_color--b--right').val(changed_to);
+        $('#text_color--a--right').val(changed_to);
+        $('#text_color--r--right').val(changed_to);
+        $('#text_color--f--right').val(changed_to);
+
+
+        $('#text_color--b--bottom').val(changed_to);
+        $('#text_color--a--bottom').val(changed_to);
+        $('#text_color--r--bottom').val(changed_to);
+        $('#text_color--f--bottom').val(changed_to);
+
+      }
+      if(who_changed == 'text_color--b') {
+        //also update and sync child text colors
+        $('#text_color--b--left').val(changed_to);
+        $('#text_color--b--right').val(changed_to);
+        $('#text_color--b--bottom').val(changed_to);
+      }
+      if(who_changed == 'text_color--a') {
+        //also update and sync child text colors
+        $('#text_color--a--left').val(changed_to);
+        $('#text_color--a--right').val(changed_to);
+        $('#text_color--a--bottom').val(changed_to);
+      }
+      if(who_changed == 'text_color--r') {
+        //also update and sync child text colors
+        $('#text_color--r--left').val(changed_to);
+        $('#text_color--r--right').val(changed_to);
+        $('#text_color--r--bottom').val(changed_to);
+      }
+      if(who_changed == 'text_color--f') {
+        //also update and sync child text colors
+        $('#text_color--f--left').val(changed_to);
+        $('#text_color--f--right').val(changed_to);
+        $('#text_color--f--bottom').val(changed_to);
+      }
+      if(who_changed == 'text_color--left') {
+        //also update and sync child text colors
+        $('#text_color--b--left').val(changed_to);
+        $('#text_color--a--left').val(changed_to);
+        $('#text_color--r--left').val(changed_to);
+        $('#text_color--f--left').val(changed_to);
+      }
+      if(who_changed == 'text_color--right') {
+        //also update and sync child text colors
+        $('#text_color--b--right').val(changed_to);
+        $('#text_color--a--right').val(changed_to);
+        $('#text_color--r--right').val(changed_to);
+        $('#text_color--f--right').val(changed_to);
+      }
+      if(who_changed == 'text_color--bottom') {
+        //also update and sync child text colors
+        $('#text_color--b--bottom').val(changed_to);
+        $('#text_color--a--bottom').val(changed_to);
+        $('#text_color--r--bottom').val(changed_to);
+        $('#text_color--f--bottom').val(changed_to);
+      }
+    } else {
+      console.log('initial sync check for settings');
+      const url = new URL(window.location.href);
+      var settings_in_query = url.searchParams.get('settings');
+      if(settings_in_query) {
+        var decoded_settings = decodeURIComponent(settings_in_query);
+        settings = JSON.parse(decoded_settings);
+        console.log(settings);
+        var to_set = Object.keys(settings);
+        console.log(to_set);
+        for(var i=0;i<to_set.length;i++) {
+          // console.log(to_set[i],settings[to_set[i]]);
+          // $('#')
+          $('#'+to_set[i]).val(settings[to_set[i]]);
+        }
+      }
+
+      $('form input').each(function(){
+       $(this).trigger('input');
+       $(this).trigger('change');
+      });
+
+    }
+
+    $('form input').each(function(){
+      var v = $(this).val();
+      var k = $(this).attr('id');
+      settings[k] = v; 
+    });
+
+    var setting_string = JSON.stringify(settings);
+    var safe_string = encodeURIComponent(setting_string);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('settings', safe_string);
+     window.history.pushState({}, '', url);
+
+    $('.settings').text(safe_string);
+
+  }
+  
+  $('form input').on('input',function(){
+    console.log('input changed');
+    syncSettings($(this));
+  });
 
   $('#background_color').on('input', function() {
     var color = $(this).val()
@@ -492,6 +679,219 @@ $(document).ready(function(){
     $clone.attr('id', null);
     $(this).parent().find('.clones').prepend($clone);
   });
+
+
+
+  var presets = {
+    chicago: {
+      shape: '#41B6E6',
+      text: '#ef002b',
+      border: '#ffffff',
+      background: '#dddddd'
+    },
+    chicago_2: {
+      shape: '#ef002b',
+      text: '#41B6E6',
+      border: '#ffffff',
+      background: '#eeeeee'
+    },
+    bulls : {
+      shape: '#000000',
+      text: '#CE1141',
+      border: '#CE1141',
+      background: '#eeeeee'
+    },
+    classic: {
+      shape: '#000000',
+      text: '#ffffff',
+      border: '#ffffff',
+      background: '#eeeeee'
+    },
+    invert: {
+      shape: '#ffffff',
+      text: '#000000',
+      border: '#000000',
+      background: '#eeeeee'
+    },
+    padres: {
+      shape:'#2f241d',
+      text: '#FFC425',
+      border: '#FFC425',
+      background: '#eeeeee'
+    },
+    lakers: {
+      shape:'#552583',
+      text: '#FDB927',
+      border: '#FDB927',
+      background: '#eeeeee'
+    },
+    nickelodeon: {
+      shape: '#631ba8',
+      text: '#1cde02',
+      border: '#FF6700',
+      background: '#ffffff'
+    },
+    slime: {
+      shape: '#1cde02',
+      text: '#631ba8',
+      border: '#631ba8',
+      background: '#ffffff'
+    },
+    kings: {
+      shape: '#5A2D81',
+      text: '#ffffff',
+      border: '#ffffff',
+      background: '#000000'
+    },
+    mexico: {
+      shape:'#ffffff',
+      text: '#006341',
+      border: '#ce1126',
+      background: '#eeeeee'
+    },
+    palastine: {
+      shape:'#000000',
+      text: '#149954',
+      border: '#E4312b',
+      background: '#eeeeee'
+    },
+    trans: {
+      shape:'#5BCEFA',
+      text: '#ffffff',
+      border: '#F5A9B8',
+      background: '#eeeeee'
+    },
+    pride: {
+      border: '#732982',
+      shape: '#000000',//E40303',
+      text: {
+        'B': '#FF8C00',
+        'A': '#FFED00',
+        'R': '#008026',
+        'F': '#004CFF'
+      }
+    },
+    pride2: {
+      border: '#ffffff',
+      text: {
+        'left': '#FFED00',
+        'right': '#FF8C00',
+        'bottom': '#008026',
+      },
+      shape: {
+        'left': '#E40303',
+        'right': '#004CFF',
+        'bottom': '#732982'
+      }
+    },
+    cmyk: {
+      border: '#000000',
+      shape: {
+        'left': '#ff00ff',
+        'right':'#ffff00',
+        'bottom':'#00FFFF',
+      },
+      text: '#000000',
+      text_alt: {
+        'left': '#00FFFF',
+        'right':'#ff00ff',
+        'bottom':'#ffff00',
+      }
+
+    }
+  }
+  $('.presets button').click(function(e){
+    $('.presets button').removeClass('active');
+    e.preventDefault();
+    var preset = $(this).attr('data-preset');
+    var preset_values = presets[preset];
+    $(this).addClass('active');
+    console.log(preset, presets, preset_values);
+
+    if(typeof(preset_values['shape']) == 'string') {
+      $('#shape_color').val(preset_values['shape']).trigger('input');
+    } else if(preset_values['shape']) {
+      if(typeof(preset_values['shape']['bottom']) == 'string') {
+        $('#shape_color--bottom').val(preset_values['shape']['bottom']).trigger('input');
+      }
+      if(typeof(preset_values['shape']['left']) == 'string') {
+        $('#shape_color--left').val(preset_values['shape']['left']).trigger('input');
+      }
+      if(typeof(preset_values['shape']['right']) == 'string') {
+        $('#shape_color--right').val(preset_values['shape']['right']).trigger('input');
+      }
+    }
+
+    if(typeof(preset_values['text']) == 'string') {
+      $('#text_color').val(preset_values['text']).trigger('input');
+    } else if(preset_values['text']) {
+      if(preset_values['text']['B']) {
+        if(typeof(preset_values['text']['B']) == 'string') {
+          $('#text_color--b').val(preset_values['text']['B']).trigger('input');
+        }
+        if(typeof(preset_values['text']['A']) == 'string') {
+          $('#text_color--a').val(preset_values['text']['A']).trigger('input');
+        }
+        if(typeof(preset_values['text']['R']) == 'string') {
+          $('#text_color--r').val(preset_values['text']['R']).trigger('input');
+        }
+        if(typeof(preset_values['text']['F']) == 'string') {
+          $('#text_color--f').val(preset_values['text']['F']).trigger('input');
+        }
+      } else if(preset_values['text']['bottom']) {
+        if(typeof(preset_values['text']['bottom']) == 'string') {
+          $('#text_color--bottom').val(preset_values['text']['bottom']).trigger('input');
+        }
+        if(typeof(preset_values['text']['left']) == 'string') {
+          $('#text_color--left').val(preset_values['text']['left']).trigger('input');
+        }
+        if(typeof(preset_values['text']['right']) == 'string') {
+          $('#text_color--right').val(preset_values['text']['right']).trigger('input');
+        }
+      }
+      
+    }
+
+    if(typeof(preset_values['border']) == 'string') {
+      $('#border_color').val(preset_values['border']).trigger('input');
+    }
+
+    if(typeof(preset_values['background']) == 'string') {
+      $('#background_color').val(preset_values['background']).trigger('input');
+    }
+
+  });
+
+  function downloadURI(uri, name) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    delete link;
+  }
+
+  $('#download').click(function(e){
+    e.preventDefault();
+
+    var box = $('#logo_base')[0];
+    domtoimage.toPng(box)
+      .then (function (dataUrl) {
+        console.log(dataUrl);
+          // var img = new Image();
+          // img.src = dataUrl;
+          // document.location.href = dataUrl;
+          // $('.clones')[0].appendChild(img);
+          downloadURI(dataUrl, "palace_x_barf.png");
+      })
+      .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+
+  })
+
+  syncSettings();
 
 });
 </script>
