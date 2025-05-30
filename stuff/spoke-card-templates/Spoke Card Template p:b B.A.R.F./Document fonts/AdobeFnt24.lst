@@ -1,0 +1,139 @@
+%!Adobe-FontList 1.24
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:/Users/cris/Projects/barf/barf.bike/stuff/spoke-card-templates/Spoke Card Template p:b B.A.R.F./Document fonts/AdobeFnt24.lst
+FileLength:2981
+FileModTime:761524177
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Arial-BoldItalicMT
+FamilyName:Arial
+StyleName:Bold Italic
+MenuName:Arial
+StyleBits:3
+WeightClass:700
+WidthClass:5
+AngleClass:1
+FullName:Arial Bold Italic
+WritingScript:Roman
+OutlineFileName:/Users/cris/Projects/barf/barf.bike/stuff/spoke-card-templates/Spoke Card Template p:b B.A.R.F./Document fonts/Arial Bold Italic.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:558672
+FileModTime:726736780
+NameArray:0,Mac,4,Arial Bold Italic
+NameArray:0,Win,1,Arial
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Arial-BoldMT
+FamilyName:Arial
+StyleName:Bold
+MenuName:Arial
+StyleBits:2
+WeightClass:700
+WidthClass:5
+AngleClass:0
+FullName:Arial Bold
+WritingScript:Roman
+OutlineFileName:/Users/cris/Projects/barf/barf.bike/stuff/spoke-card-templates/Spoke Card Template p:b B.A.R.F./Document fonts/Arial Bold.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:750984
+FileModTime:726736780
+NameArray:0,Mac,4,Arial Bold
+NameArray:0,Win,1,Arial
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Arial-ItalicMT
+FamilyName:Arial
+StyleName:Italic
+MenuName:Arial
+StyleBits:1
+WeightClass:400
+WidthClass:5
+AngleClass:1
+FullName:Arial Italic
+WritingScript:Roman
+OutlineFileName:/Users/cris/Projects/barf/barf.bike/stuff/spoke-card-templates/Spoke Card Template p:b B.A.R.F./Document fonts/Arial Italic.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:553284
+FileModTime:726736780
+NameArray:0,Mac,4,Arial Italic
+NameArray:0,Win,1,Arial
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:ArialMT
+FamilyName:Arial
+StyleName:Regular
+MenuName:Arial
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Arial
+WritingScript:Roman
+OutlineFileName:/Users/cris/Projects/barf/barf.bike/stuff/spoke-card-templates/Spoke Card Template p:b B.A.R.F./Document fonts/Arial.ttf
+DataFormat:sfntData
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:773236
+FileModTime:726736780
+NameArray:0,Mac,4,Arial
+NameArray:0,Win,1,Arial
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:MinionPro-Regular
+FamilyName:Minion Pro
+StyleName:Regular
+MenuName:Minion Pro
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Minion Pro
+WritingScript:Roman
+OutlineFileName:/Users/cris/Projects/barf/barf.bike/stuff/spoke-card-templates/Spoke Card Template p:b B.A.R.F./Document fonts/MinionPro-Regular.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:218640
+FileModTime:753830494
+DesignSize:110
+NameArray:0,Mac,4,Minion Pro
+NameArray:0,Win,1,Minion Pro
+%EndFont
+
